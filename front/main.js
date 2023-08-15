@@ -5,6 +5,7 @@ import {OSM, Vector as VectorSource} from 'ol/source.js';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 import {get} from 'ol/proj.js';
 import { Feature } from 'ol';
+import $ from 'jquery';
 
 const raster = new TileLayer({
   source: new OSM(),
@@ -39,7 +40,7 @@ let draw, snap, modify;
 let last_feature;
 const modeSelect = document.getElementById('mode');
 const typeSelect = document.getElementById('type');
-var modal = new bootstrap.Modal(document.getElementById('modal'), {
+const modal = new bootstrap.Modal(document.getElementById('modal'), {
   keyboard: false
 });
 
@@ -79,11 +80,11 @@ typeSelect.onchange = function () {
 
 modeSelect.onchange = function () {
   clearInteractions();
-  if (modeSelect.value == "Draw") {
+  if (modeSelect.value === "Draw") {
     typeSelect.disabled = false;
     if (!["Polygon", "Point", "LineString"].includes(typeSelect.value)) return;
     return addInteractions();
-  } else if (modeSelect.value == "Edit") {
+  } else if (modeSelect.value === "Edit") {
     modify = new Modify({source: source});
     map.addInteraction(modify);
   }
@@ -123,13 +124,13 @@ function clearForm() {
 
 
 function appendTable(featureId, city, district, street) {
-  var table = document.getElementById('data').getElementsByTagName('tbody')[0];
-  var row = table.insertRow();
-  var _id = row.insertCell();
-  var _city = row.insertCell();
-  var _district = row.insertCell();
-  var _street = row.insertCell();
-  var _action = row.insertCell();
+  let table = document.getElementById('data').getElementsByTagName('tbody')[0];
+  let row = table.insertRow();
+  let _id = row.insertCell();
+  let _city = row.insertCell();
+  let _district = row.insertCell();
+  let _street = row.insertCell();
+  let _action = row.insertCell();
   _id.innerHTML = featureId;
   _city.innerHTML = city;
   _district.innerHTML = district;
@@ -140,18 +141,18 @@ function appendTable(featureId, city, district, street) {
 }
 
 function refreshTable() {
-  var data = document.getElementById('data');
+  let data = document.getElementById('data');
   for (let x = data.rows.length - 1; x > 0; x--) {
      data.deleteRow(x);
   }
   source.getFeatures().forEach((feature) => {
-    var table = document.getElementById('data').getElementsByTagName('tbody')[0];
-    var row = table.insertRow();
-    var _id = row.insertCell();
-    var _city = row.insertCell();
-    var _district = row.insertCell();
-    var _street = row.insertCell();
-    var _action = row.insertCell();
+    let table = document.getElementById('data').getElementsByTagName('tbody')[0];
+    let row = table.insertRow();
+    let _id = row.insertCell();
+    let _city = row.insertCell();
+    let _district = row.insertCell();
+    let _street = row.insertCell();
+    let _action = row.insertCell();
     _id.innerHTML = feature.getId();
     _city.innerHTML = "city";
     _district.innerHTML = "district";
@@ -160,3 +161,18 @@ function refreshTable() {
     `<button type="button" id="actionDeleteButton" class="btn btn-danger btn-sm">Sil</button>`;
   });
 }
+
+
+
+
+$.ajax({
+  url: "http://localhost:5158/api/Parsel",
+  type: 'GET',
+  contentType: 'application/json',
+  dataType: 'json',
+  success: function(res) {
+      console.log(res);
+  }
+});
+
+
