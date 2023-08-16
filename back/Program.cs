@@ -23,6 +23,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// global cors policy
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(_ => true) // allow any origin
+    .AllowCredentials()); // allow credentials
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

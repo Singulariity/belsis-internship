@@ -14,7 +14,7 @@ public class ParselController : ControllerBase {
 		_dbContext = dbContext;
 	}
 
-	[HttpGet]
+	[HttpGet("getall")]
 	public async Task<ActionResult<IEnumerable<Parsel>>> GetParsels() {
 		if (_dbContext.Parsels == null) {
 			return NotFound();
@@ -23,7 +23,7 @@ public class ParselController : ControllerBase {
 		return await _dbContext.Parsels.ToListAsync();
 	}
     
-	[HttpGet("{id:int}")]
+	[HttpGet("{id:int}/get")]
 	public async Task<ActionResult<Parsel>> GetParsel(int id) {
 		if (_dbContext.Parsels == null) {
 			return NotFound();
@@ -37,7 +37,7 @@ public class ParselController : ControllerBase {
 		return parsel;
 	}
 
-	[HttpPost]
+	[HttpPost("add")]
 	public async Task<ActionResult<Parsel>> PostParsel(Parsel parsel) {
 		if (_dbContext.Parsels == null) {
 			return NotFound();
@@ -49,7 +49,7 @@ public class ParselController : ControllerBase {
 		return CreatedAtAction(nameof(GetParsel), new { id = parsel.ID }, parsel);
 	}
 
-	[HttpPost("{id:int}")]
+	[HttpPost("{id:int}/remove")]
 	public async Task<ActionResult> RemoveParsel(int id) {
 		if (_dbContext.Parsels == null) {
 			return NotFound();
@@ -66,7 +66,7 @@ public class ParselController : ControllerBase {
 		return Ok();
 	}
 
-	[HttpPut("{id:int}")]
+	[HttpPut("{id:int}/update")]
 	public async Task<IActionResult> UpdateParsel(int id, Parsel parselData) {
 		if (_dbContext.Parsels == null) {
 			return NotFound();
